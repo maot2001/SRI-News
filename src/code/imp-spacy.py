@@ -31,6 +31,9 @@ def filter_tokens_by_occurrence(tokenized_docs, no_below=2, no_above=0.5):
 # Se construye un vocabulario (diccionario sin ocurrencia)
 def build_vocabulary(dictionary):
   return list(dictionary.token2id.keys())
+  
+def pos_tagger_spacy(tokenized_docs):
+  return [[token.tag_ for token in doc] for doc in tokenized_docs]
 
 # Se determina el TF-IDF de cada token en cada documento
 def vector_representation(tokenized_docs, dictionary):
