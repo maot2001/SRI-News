@@ -82,9 +82,9 @@ def get_matching_docs(query_dnf):
     matching_documents = []
     for doc in tokenized_docs:
         for i in query_dnf:
+            query_successfully = False
             if type(i) == tuple:
                 success = True
-                aux = False
                 for j in i:
                     is_not = False
                     if type(j) == Not:
@@ -93,12 +93,14 @@ def get_matching_docs(query_dnf):
                     else: w = str(j)
                     contains = w in doc
                     if is_not and not contains:
-                        aux = True
                         success = success and not contains
                     elif not is_not and contains:
-                        aux = True
                         success = success and contains
-                if success and aux:
+                    else: 
+                        success = success and False
+                        break
+                if success:
+                    query_successfully = True
                     matching_documents.append(doc)
                     break
             else:
@@ -109,11 +111,15 @@ def get_matching_docs(query_dnf):
                 else: w = str(i)
                 contains = w in doc
                 if is_not and not contains:
+                    query_successfully = True
                     matching_documents.append(doc)
                     break
                 elif not is_not and contains:
+                    query_successfully = True
                     matching_documents.append(doc)
                     break
+            if query_successfully:
+                break
     return matching_documents
 
 
@@ -127,7 +133,7 @@ vocabulary = list(dictionary.token2id.keys())
 corpus = [dictionary.doc2bow(doc) for doc in tokenized_docs]
 
 #Test
-query = "( experimental AND investigation AND ( aerodynamic ) OR NOT simple ) "
+query = "( flow AND wing AND randomPalabraQueNoEsta ) "
 print(query_to_dnf(query))
 query = get_clean_query(query)
 print(query)
