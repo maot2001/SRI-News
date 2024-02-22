@@ -1,5 +1,4 @@
-#from . 
-import news_url
+from . import news_url
 
 class Docs:
     def __init__(self, url, title=None, text=None, authors=None):

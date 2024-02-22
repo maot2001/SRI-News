@@ -2,8 +2,7 @@ from gensim.corpora import Dictionary
 from gensim.models import TfidfModel
 import spacy
 nlp = spacy.load("en_core_web_sm")
-#from . 
-import elements
+from . import elements
 
 def tokenization_spacy(texts):
     """Give de lemmatization of all the words in the texts
@@ -51,8 +50,6 @@ def vector_representation(tokenized_docs, dictionary, vocabulary=None, idfs=None
 
     if vocabulary:
         for i in range(len(dictionary.token2id)):
-            print(dictionary.id2token[i])
-            print(model_tfidf.idfs.get(i))
             words.append(elements.Words(dictionary.id2token[i], model_tfidf.idfs.get(i)))
 
     if idfs:

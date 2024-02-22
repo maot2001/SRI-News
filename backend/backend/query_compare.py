@@ -1,5 +1,5 @@
-from preprocess import token_docs as tok
-import utils
+from .preprocess import token_docs as tok
+from . import utils
 import numpy as np
 import threading
 
@@ -15,7 +15,6 @@ def search(query_vector, found_words, min, max, result):
             if doc['id'] >= max: break
             matrix[doc['id'] - min][i] = doc['tf-idf']
             docs[doc['id'] - min] = True
-            print(matrix)
 
     for i in range(len(docs)):
         if docs[i]:
