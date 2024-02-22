@@ -1,0 +1,67 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NotiFind</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <div class="flex justify-center">
+            <h2 class="text-2xl font-bold mb-4">{{mensaje}}</h2>
+        </div>
+        <form id="Consulta" class="mb-4">
+            {% csrf_token %}
+            <label for="busqueda" class="mb-2">Ingrese su noticia:</label><br>
+            <input type="text" id="busqueda" name="consulta" class="border rounded-md px-4 py-2 w-full mb-2"><br>
+            <div class="flex justify-center">
+                <button type="button" onclick="enviarConsulta()"
+                    class="mr-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Enviar
+                </button>
+            </div>
+        </form>
+
+        <div id="resultados" class="container mx-auto p-4"></div>
+    </div>
+    <script>
+        function enviarConsulta() {
+
+            var busqueda = document.getElementById("busqueda").value;
+
+            fetch("/buscar/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": "{{ csrf_token }}"
+                },
+                body: JSON.stringify({ busqueda: busqueda })
+            })
+                .then(Response => Response.json())
+                .then(data => {
+                    var resultados = data.resultado
+                    document.getElementById("resultados").innerHTML = ""
+                    resultados.forEach(resultado => {
+                        document.getElementById("resultados").innerHTML += "<p>" + resultado[0] + "<br>" + resultado[1] + "<br>" + resultado[2] + "</p> <br><br>"
+                    });
+
+                });
+        }
+
+        function ImprimirConsulta() {
+            fetch("/resultado/")
+                .then(Response => Response.json())
+                .then(data => {
+                    document.getElementById("resultados").innerText = data.resultado;
+                });
+
+        }
+    </script>
+    </center>
+
+
+</body>
+
+</html>
