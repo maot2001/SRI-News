@@ -3,6 +3,7 @@ from gensim.models import TfidfModel
 import spacy
 nlp = spacy.load("en_core_web_sm")
 from . import elements
+#import elements
 
 def tokenization_spacy(texts):
     """Give de lemmatization of all the words in the texts

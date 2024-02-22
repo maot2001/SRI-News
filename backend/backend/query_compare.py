@@ -31,26 +31,27 @@ def recive_query_tf_idf(query, data_words):
 
     for word in vocabulary:
         aux = utils.binary_search(word, data_words)
-        if aux == -1: aux = tok.elements.Words(word, 0)
+        if aux == -1: 
+            aux = tok.elements.Words(word, 0).to_dict()
         idfs.append(aux['idf'])
         found_words.append(aux)
 
     query_vector, _ = tok.vector_representation(tokenized_docs, dictionary, idfs=idfs)
     query_vector = [val[1] for val in query_vector[0]]
 
-    hilo1 = threading.Thread(target=search, args=(query_vector, found_words, 0, 2000, result))
+    hilo1 = threading.Thread(target=search, args=(query_vector, found_words, 0, 3000, result))
     hilo1.start()
 
-    hilo2 = threading.Thread(target=search, args=(query_vector, found_words, 2000, 4000, result))
+    hilo2 = threading.Thread(target=search, args=(query_vector, found_words, 3000, 6000, result))
     hilo2.start()
 
-    hilo3 = threading.Thread(target=search, args=(query_vector, found_words, 4000, 6000, result))
+    hilo3 = threading.Thread(target=search, args=(query_vector, found_words, 6000, 9000, result))
     hilo3.start()
 
-    hilo4 = threading.Thread(target=search, args=(query_vector, found_words, 6000, 8000, result))
+    hilo4 = threading.Thread(target=search, args=(query_vector, found_words, 9000, 12000, result))
     hilo4.start()
 
-    hilo5 = threading.Thread(target=search, args=(query_vector, found_words, 8000, 10000, result))
+    hilo5 = threading.Thread(target=search, args=(query_vector, found_words, 12000, 14996, result))
     hilo5.start()
 
     hilo1.join()

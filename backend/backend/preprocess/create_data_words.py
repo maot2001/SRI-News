@@ -4,7 +4,7 @@ from operator import attrgetter
 import token_docs
 
 # Carga de datos
-with open('docs.json', 'r', encoding='utf-8') as file:
+with open('backend//data//docs.json', 'r', encoding='utf-8') as file:
     data_docs = json.load(file)
 
 texts = []
@@ -12,7 +12,7 @@ for doc in data_docs:
     texts.append(doc['text'])
 
 # Pre-procesamiento de documentos (Separacion de tokens y filtro de ocurrencia)
-dictionary, tokenized_docs = token_docs.filter_tokens_by_occurrence(token_docs.tokenization_spacy(texts))
+dictionary, tokenized_docs = token_docs.filter_tokens_by_occurrence(token_docs.tokenization_spacy(texts[:10000]))
 
 # La construccion del vocabulario es importante porque queda en cada posicion las palabras de los documentos, lo cual se pierde en vector_repr
 # Si hacen print(vocabulary) y print(vector_repr) entenderan
@@ -28,5 +28,5 @@ for i in range(len(vector_repr)):
 words = sorted(words, key=attrgetter('word'))
 
 words_json = json.dumps([word.to_dict() for word in words], indent=4, ensure_ascii=False)
-with open('words.json', 'w', encoding='utf-8') as file:
+with open('backend//data//words.json', 'w', encoding='utf-8') as file:
     file.write(words_json)

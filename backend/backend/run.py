@@ -30,6 +30,7 @@ def run(query, data_words, data_docs):
     compare = sorted(compare, key=lambda x: x[1], reverse=True)
 
     for index in compare[:10]:
+        print(index)
         doc = data_docs[index[0]]
         reduct = summarizer.summarize(doc['text'])
         result.append((doc['title'], reduct, doc['authors']))
